@@ -1,0 +1,22 @@
+.search-wrap {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  height: 56px;
+  > div:hover:not(.Mui-disabled):before {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.42);
+  }
+  > div {
+    width: 100%;
+    &::before {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.42);
+    }
+    &::after {
+      border-bottom: 1px solid rgba(255, 255, 255, 1);
+    }
+  }
+  input {
+    color: #fff;
+    padding: 7px;
+  }
+}
