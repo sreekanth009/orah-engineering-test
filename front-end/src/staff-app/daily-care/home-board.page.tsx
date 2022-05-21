@@ -18,7 +18,7 @@ export const HomeBoardPage: React.FC = () => {
 
   useEffect(() => {
     getStudents()
-    const items = JSON.parse(localStorage.getItem("boardingware.students"))
+    const items = JSON.parse(localStorage.getItem("boardingware.students") && localStorage.getItem("boardingware.students"))
     if (items) {
       setList(items)
     }
@@ -35,18 +35,16 @@ export const HomeBoardPage: React.FC = () => {
       setIsRollMode(false)
     }
   }
-  // console.log("response", data?.students)
 
-  // console.log("list", list)
-
-  // const getFilter = (list: any) => {
-  //   return list.sort((a: any, b: any) => (a.first_name < b.first_name ? -1 : 1))
-  // }
+  // Update main list on input change
+  const updateMainList = (resultList: any) => {
+    setList(resultList)
+  }
 
   return (
     <>
       <S.PageContainer>
-        <Toolbar onItemClick={onToolbarAction} studentList={list} setList={setList} />
+        <Toolbar onItemClick={onToolbarAction} studentList={list} updateMainList={updateMainList} />
 
         {loadState === "loading" && (
           <CenteredContainer>
@@ -54,7 +52,11 @@ export const HomeBoardPage: React.FC = () => {
           </CenteredContainer>
         )}
 
-        {list && list.map((s: any) => <StudentListTile key={s.id} isRollMode={isRollMode} student={s} />)}
+        {list && list.length > 0 ? (
+          list.map((s: any) => <StudentListTile key={s.id} isRollMode={isRollMode} student={s} />)
+        ) : (
+          <S.NoRecordsFound>{"No records found.."}</S.NoRecordsFound>
+        )}
 
         {loadState === "error" && (
           <CenteredContainer>
@@ -70,16 +72,15 @@ export const HomeBoardPage: React.FC = () => {
 type ToolbarAction = "roll" | "sort"
 interface ToolbarProps<T> {
   studentList: T
-  setList: T
+  updateMainList: T
   onItemClick: (action: ToolbarAction, value?: string) => void
 }
 const Toolbar: React.FC<ToolbarProps> = (props) => {
-  console.log("toolbar", props)
   const { onItemClick } = props
   return (
     <S.ToolbarContainer>
       <div onClick={() => onItemClick("sort")}>First Name</div>
-      <SearchBar studentList={props && props.studentList} setList={() => props.setList} />
+      <SearchBar studentList={props && props.studentList} updateMainList={props.updateMainList} />
       <S.Button onClick={() => onItemClick("roll")}>Start Roll</S.Button>
     </S.ToolbarContainer>
   )
@@ -108,5 +109,11 @@ const S = {
       font-weight: ${FontWeight.strong};
       border-radius: ${BorderRadius.default};
     }
+  `,
+  NoRecordsFound: styled.p`
+    text-align: center;
+    font-size: 18px;
+    color: ${Colors.blue.base};
+    font-weight: ${FontWeight.strong};
   `,
 }

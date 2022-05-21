@@ -4,25 +4,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { faSearch } from "@fortawesome/free-solid-svg-icons"
 import "./search-bar.scss"
-import debounce from "../../../shared/helpers/debounce"
 import getFilteredItems from "../../../shared/helpers/get-filtered-items"
 
 library.add(faSearch)
 
 interface SearchBar<T> {
   studentList: T
+  updateMainList: T
 }
 
 const SearchBar: React.FC = (props) => {
-  // Component states
+  // Component local states
   const [query, setQuery] = useState("")
 
-  // Set search query
-  const updateQuery = (e: any) => {
-    setQuery(e.target.value)
+  // Set search query and filter the list with search query
+  const handleOnChange = (searchQuery: any) => {
+    setQuery(searchQuery)
+    getFilteredItems(query, props && props.studentList, props && props.updateMainList)
   }
-
-  console.log("searchbar props", props)
 
   return (
     <div className={"search-wrap"}>
@@ -30,7 +29,7 @@ const SearchBar: React.FC = (props) => {
       <Input
         id={"search-by-name"}
         placeholder={"Search by name"}
-        onChange={(e) => updateQuery(e)}
+        onChange={(e) => handleOnChange(e.target.value)}
         aria-describedby={"search-by-student-name"}
         inputProps={{
           "aria-label": "query",
