@@ -25,6 +25,10 @@ export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", si
     return matchingIndex > -1 ? states[matchingIndex + 1] : states[0]
   }
 
+  const findIndex = (list: any) => {
+    return list.findIndex((obj: any) => obj.id === individualStudent.id)
+  }
+
   const onClick = () => {
     const next = nextState()
     setRollState(next)
@@ -33,18 +37,18 @@ export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", si
     }
 
     if (next === "present") {
-      const index = presentList.findIndex((obj) => obj.id === individualStudent.id)
+      const index = findIndex(presentList)
       if (index === -1) {
         updatePresentList(presentList.push(individualStudent))
 
-        const index = absentList.findIndex((obj) => obj.id === individualStudent.id)
+        const index = findIndex(absentList)
         if (index === -1) {
           return ""
         } else {
           updateAbsentList(absentList.pop(individualStudent))
         }
 
-        const index2 = lateList.findIndex((obj) => obj.id === individualStudent.id)
+        const index2 = findIndex(lateList)
         if (index2 === -1) {
           return ""
         } else {
@@ -52,18 +56,18 @@ export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", si
         }
       }
     } else if (next === "late") {
-      const index = lateList.findIndex((obj) => obj.id === individualStudent.id)
+      const index = findIndex(lateList)
       if (index === -1) {
         updateLateList(lateList.push(individualStudent))
 
-        const index = presentList.findIndex((obj) => obj.id === individualStudent.id)
+        const index = findIndex(presentList)
         if (index === -1) {
           return ""
         } else {
           updatePresentList(presentList.pop(individualStudent))
         }
 
-        const index2 = absentList.findIndex((obj) => obj.id === individualStudent.id)
+        const index2 = findIndex(absentList)
         if (index2 === -1) {
           return ""
         } else {
@@ -71,18 +75,18 @@ export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", si
         }
       }
     } else if (next === "absent") {
-      const index = absentList.findIndex((obj) => obj.id === individualStudent.id)
+      const index = findIndex(absentList)
       if (index === -1) {
         updateAbsentList(absentList.push(individualStudent))
 
-        const index2 = lateList.findIndex((obj) => obj.id === individualStudent.id)
+        const index2 = findIndex(lateList)
         if (index2 === -1) {
           return ""
         } else {
           updateLateList(lateList.pop(individualStudent))
         }
 
-        const index = presentList.findIndex((obj) => obj.id === individualStudent.id)
+        const index = findIndex(presentList)
         if (index === -1) {
           return ""
         } else {
