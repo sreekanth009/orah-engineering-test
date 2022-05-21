@@ -1,48 +1,43 @@
-import React from "react"
-import styled from "styled-components"
+import React, { useState } from "react"
 import Input from "@material-ui/core/Input"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Colors } from "shared/styles/colors"
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { faSearch } from "@fortawesome/free-solid-svg-icons"
 import "./search-bar.scss"
+import debounce from "../../../shared/helpers/debounce"
+import getFilteredItems from "../../../shared/helpers/get-filtered-items"
 
-const SearchBar: React.FC = () => {
-  library.add(faSearch)
+library.add(faSearch)
+
+interface SearchBar<T> {
+  studentList: T
+}
+
+const SearchBar: React.FC = (props) => {
+  // Component states
+  const [query, setQuery] = useState("")
+
+  // Set search query
+  const updateQuery = (e: any) => {
+    setQuery(e.target.value)
+  }
+
+  console.log("searchbar props", props)
+
   return (
-    <S.SearchWrap>
-      <S.SearchIcon>
-        <FontAwesomeIcon icon="search" />
-      </S.SearchIcon>
+    <div className={"search-wrap"}>
+      <FontAwesomeIcon icon={"search"} />
       <Input
-        id="search-by-name"
+        id={"search-by-name"}
         placeholder={"Search by name"}
-        // onChange={}
-        aria-describedby="search-by-student-name"
+        onChange={(e) => updateQuery(e)}
+        aria-describedby={"search-by-student-name"}
         inputProps={{
           "aria-label": "query",
         }}
       />
-    </S.SearchWrap>
+    </div>
   )
-}
-
-const S = {
-  SearchWrap: styled.div`
-    display: flex;
-    align-items: center;
-    height: 56px;
-    background-color: ${Colors.blue.base};
-    color: #fff;
-  `,
-  SearchIcon: styled.div`
-    width: auto;
-    padding: 0;
-  `,
-  Input: styled.input`
-    border: 1px solid red;
-    color: #fff;
-  `,
 }
 
 export default SearchBar

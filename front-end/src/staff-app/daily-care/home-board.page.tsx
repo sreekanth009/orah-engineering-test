@@ -13,10 +13,15 @@ import SearchBar from "../components/search-bar/search-bar.component"
 
 export const HomeBoardPage: React.FC = () => {
   const [isRollMode, setIsRollMode] = useState(false)
+  const [list, setList] = useState([])
   const [getStudents, data, loadState] = useApi<{ students: Person[] }>({ url: "get-homeboard-students" })
 
   useEffect(() => {
-    void getStudents()
+    getStudents()
+    const items = JSON.parse(localStorage.getItem("boardingware.students"))
+    if (items) {
+      setList(items)
+    }
   }, [getStudents])
 
   const onToolbarAction = (action: ToolbarAction) => {
@@ -30,11 +35,18 @@ export const HomeBoardPage: React.FC = () => {
       setIsRollMode(false)
     }
   }
+  // console.log("response", data?.students)
+
+  // console.log("list", list)
+
+  // const getFilter = (list: any) => {
+  //   return list.sort((a: any, b: any) => (a.first_name < b.first_name ? -1 : 1))
+  // }
 
   return (
     <>
       <S.PageContainer>
-        <Toolbar onItemClick={onToolbarAction} />
+        <Toolbar onItemClick={onToolbarAction} studentList={list} setList={setList} />
 
         {loadState === "loading" && (
           <CenteredContainer>
@@ -42,13 +54,7 @@ export const HomeBoardPage: React.FC = () => {
           </CenteredContainer>
         )}
 
-        {loadState === "loaded" && data?.students && (
-          <>
-            {data.students.map((s) => (
-              <StudentListTile key={s.id} isRollMode={isRollMode} student={s} />
-            ))}
-          </>
-        )}
+        {list && list.map((s: any) => <StudentListTile key={s.id} isRollMode={isRollMode} student={s} />)}
 
         {loadState === "error" && (
           <CenteredContainer>
@@ -62,15 +68,18 @@ export const HomeBoardPage: React.FC = () => {
 }
 
 type ToolbarAction = "roll" | "sort"
-interface ToolbarProps {
+interface ToolbarProps<T> {
+  studentList: T
+  setList: T
   onItemClick: (action: ToolbarAction, value?: string) => void
 }
 const Toolbar: React.FC<ToolbarProps> = (props) => {
+  console.log("toolbar", props)
   const { onItemClick } = props
   return (
     <S.ToolbarContainer>
       <div onClick={() => onItemClick("sort")}>First Name</div>
-      <SearchBar />
+      <SearchBar studentList={props && props.studentList} setList={() => props.setList} />
       <S.Button onClick={() => onItemClick("roll")}>Start Roll</S.Button>
     </S.ToolbarContainer>
   )
