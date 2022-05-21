@@ -5,12 +5,22 @@ import { useApi } from "shared/hooks/use-api"
 const contextDefaultValues: ContextState = {
   studentMainList: [],
   updateMainList: () => {},
+  loadState: "",
+  presentList: [],
+  lateList: [],
+  absentList: [],
+  updatePresentList: () => {},
+  updateLateList: () => {},
+  updateAbsentList: () => {},
 }
 
 export const StudentAttendanceContext = createContext<ContextState>(contextDefaultValues)
 
 const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
   const [studentMainList, setStudentMainList] = useState<Person[]>([])
+  const [presentList, setPresentList] = useState<Person[]>([])
+  const [lateList, setLateList] = useState<Person[]>([])
+  const [absentList, setAbsentList] = useState<Person[]>([])
   const [getStudents, data, loadState] = useApi<{ students: Person[] }>({ url: "get-homeboard-students" })
 
   useEffect(() => {
@@ -26,7 +36,38 @@ const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
     setStudentMainList(resultList)
   }
 
-  return <StudentAttendanceContext.Provider value={{ studentMainList, updateMainList }}>{children}</StudentAttendanceContext.Provider>
+  // Update student present list
+  const updatePresentList = (list: any) => {
+    setPresentList([...presentList])
+  }
+
+  // Update student late list
+  const updateLateList = (list: any) => {
+    setLateList([...lateList])
+  }
+
+  // Update student absent list
+  const updateAbsentList = (list: any) => {
+    setAbsentList([...absentList])
+  }
+
+  return (
+    <StudentAttendanceContext.Provider
+      value={{
+        studentMainList,
+        updateMainList,
+        loadState: loadState,
+        presentList,
+        lateList,
+        absentList,
+        updatePresentList,
+        updateLateList,
+        updateAbsentList,
+      }}
+    >
+      {children}
+    </StudentAttendanceContext.Provider>
+  )
 }
 
 export default StudentAttendanceProvider

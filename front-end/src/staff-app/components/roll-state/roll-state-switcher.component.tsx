@@ -1,14 +1,22 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { RolllStateType } from "shared/models/roll"
 import { RollStateIcon } from "staff-app/components/roll-state/roll-state-icon.component"
+import { Person } from "shared/models/person"
+import { StudentAttendanceContext } from "context-provider/context.provider.component"
 
 interface Props {
   initialState?: RolllStateType
   size?: number
   onStateChange?: (newState: RolllStateType) => void
+  individualStudent: Person
 }
-export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", size = 40, onStateChange }) => {
+export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", size = 40, onStateChange, individualStudent }) => {
   const [rollState, setRollState] = useState(initialState)
+  const { presentList, lateList, absentList, updatePresentList, updateLateList, updateAbsentList } = useContext(StudentAttendanceContext)
+
+  console.log("presentList", presentList)
+  console.log("lateList", lateList)
+  console.log("absentList", absentList)
 
   const nextState = () => {
     const states: RolllStateType[] = ["present", "late", "absent"]
@@ -22,6 +30,65 @@ export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", si
     setRollState(next)
     if (onStateChange) {
       onStateChange(next)
+    }
+
+    if (next === "present") {
+      const index = presentList.findIndex((obj) => obj.id === individualStudent.id)
+      if (index === -1) {
+        updatePresentList(presentList.push(individualStudent))
+
+        const index = absentList.findIndex((obj) => obj.id === individualStudent.id)
+        if (index === -1) {
+          return ""
+        } else {
+          updateAbsentList(absentList.pop(individualStudent))
+        }
+
+        const index2 = lateList.findIndex((obj) => obj.id === individualStudent.id)
+        if (index2 === -1) {
+          return ""
+        } else {
+          updateLateList(lateList.pop(individualStudent))
+        }
+      }
+    } else if (next === "late") {
+      const index = lateList.findIndex((obj) => obj.id === individualStudent.id)
+      if (index === -1) {
+        updateLateList(lateList.push(individualStudent))
+
+        const index = presentList.findIndex((obj) => obj.id === individualStudent.id)
+        if (index === -1) {
+          return ""
+        } else {
+          updatePresentList(presentList.pop(individualStudent))
+        }
+
+        const index2 = absentList.findIndex((obj) => obj.id === individualStudent.id)
+        if (index2 === -1) {
+          return ""
+        } else {
+          updateAbsentList(absentList.pop(individualStudent))
+        }
+      }
+    } else if (next === "absent") {
+      const index = absentList.findIndex((obj) => obj.id === individualStudent.id)
+      if (index === -1) {
+        updateAbsentList(absentList.push(individualStudent))
+
+        const index2 = lateList.findIndex((obj) => obj.id === individualStudent.id)
+        if (index2 === -1) {
+          return ""
+        } else {
+          updateLateList(lateList.pop(individualStudent))
+        }
+
+        const index = presentList.findIndex((obj) => obj.id === individualStudent.id)
+        if (index === -1) {
+          return ""
+        } else {
+          updatePresentList(presentList.pop(individualStudent))
+        }
+      }
     }
   }
 

@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { RollStateIcon } from "staff-app/components/roll-state/roll-state-icon.component"
 import { Spacing, FontWeight } from "shared/styles/styles"
 import { RolllStateType } from "shared/models/roll"
+import { Person } from "shared/models/person"
 
-interface Props {
+interface Props<T> {
   stateList: StateList[]
   onItemClick?: (type: ItemType) => void
   size?: number
@@ -19,12 +20,12 @@ export const RollStateList: React.FC<Props> = ({ stateList, size = 14, onItemCli
 
   return (
     <S.ListContainer>
-      {stateList.map((s, i) => {
+      {stateList.map((s: any, i: any) => {
         if (s.type === "all") {
           return (
             <S.ListItem key={i}>
               <FontAwesomeIcon icon="users" size="sm" style={{ cursor: "pointer" }} onClick={() => onClick(s.type)} />
-              <span>{s.count}</span>
+              <span>{s.count.length}</span>
             </S.ListItem>
           )
         }
@@ -32,7 +33,7 @@ export const RollStateList: React.FC<Props> = ({ stateList, size = 14, onItemCli
         return (
           <S.ListItem key={i}>
             <RollStateIcon type={s.type} size={size} onClick={() => onClick(s.type)} />
-            <span>{s.count}</span>
+            <span>{s.count.length}</span>
           </S.ListItem>
         )
       })}
@@ -59,7 +60,7 @@ const S = {
 
 interface StateList {
   type: ItemType
-  count: number
+  count: Person[]
 }
 
 type ItemType = RolllStateType | "all"
