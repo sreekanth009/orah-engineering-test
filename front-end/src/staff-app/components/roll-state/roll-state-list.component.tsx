@@ -1,22 +1,41 @@
-import React from "react"
+import React, { useContext } from "react"
 import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { RollStateIcon } from "staff-app/components/roll-state/roll-state-icon.component"
 import { Spacing, FontWeight } from "shared/styles/styles"
 import { RolllStateType } from "shared/models/roll"
 import { Person } from "shared/models/person"
+import { StudentAttendanceContext } from "context-provider/context.provider.component"
 
-interface Props<T> {
+interface Props {
   stateList: StateList[]
   onItemClick?: (type: ItemType) => void
   size?: number
 }
 export const RollStateList: React.FC<Props> = ({ stateList, size = 14, onItemClick }) => {
+  const { updateMainList, presentList, lateList, absentList, unmarkedList } = useContext(StudentAttendanceContext)
+
+  console.log("unmarkedList.....before....", unmarkedList)
+
   const onClick = (type: ItemType) => {
     if (onItemClick) {
       onItemClick(type)
     }
+    switch (type) {
+      case "all":
+        return updateMainList(unmarkedList && unmarkedList)
+      case "present":
+        return updateMainList(presentList && presentList)
+      case "late":
+        return updateMainList(lateList && lateList)
+      case "absent":
+        return updateMainList(absentList && absentList)
+      default:
+        return updateMainList(unmarkedList && unmarkedList)
+    }
   }
+
+  console.log("unmarkedList.....after....", unmarkedList)
 
   return (
     <S.ListContainer>

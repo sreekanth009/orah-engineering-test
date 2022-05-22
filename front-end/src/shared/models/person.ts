@@ -11,6 +11,7 @@ export const PersonHelper = {
 
 export type ContextState = {
   studentMainList: Person[];
+  unmarkedList: Person[];
   updateMainList: (filter: Person) => void;
   loadState: string;
   presentList: Person[];

@@ -11,7 +11,7 @@ interface Props {
   individualStudent: Person
 }
 export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", size = 40, onStateChange, individualStudent }) => {
-  const [rollState, setRollState] = useState(initialState)
+  const [rollState, setRollState] = useState((individualStudent && individualStudent.type) || initialState)
   const { presentList, lateList, absentList, updatePresentList, updateLateList, updateAbsentList } = useContext(StudentAttendanceContext)
 
   console.log("presentList", presentList)
@@ -40,6 +40,7 @@ export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", si
       const index = findIndex(presentList)
       if (index === -1) {
         updatePresentList(presentList.push(individualStudent))
+        presentList.forEach((item) => (item.type = next))
 
         const index = findIndex(absentList)
         if (index === -1) {
@@ -59,6 +60,7 @@ export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", si
       const index = findIndex(lateList)
       if (index === -1) {
         updateLateList(lateList.push(individualStudent))
+        lateList.forEach((item) => (item.type = next))
 
         const index = findIndex(presentList)
         if (index === -1) {
@@ -78,6 +80,7 @@ export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", si
       const index = findIndex(absentList)
       if (index === -1) {
         updateAbsentList(absentList.push(individualStudent))
+        absentList.forEach((item) => (item.type = next))
 
         const index2 = findIndex(lateList)
         if (index2 === -1) {

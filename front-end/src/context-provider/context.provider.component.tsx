@@ -4,6 +4,7 @@ import { useApi } from "shared/hooks/use-api"
 
 const contextDefaultValues: ContextState = {
   studentMainList: [],
+  unmarkedList: [],
   updateMainList: () => {},
   loadState: "",
   presentList: [],
@@ -18,6 +19,7 @@ export const StudentAttendanceContext = createContext<ContextState>(contextDefau
 
 const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
   const [studentMainList, setStudentMainList] = useState<Person[]>([])
+  const [unmarkedList, setUnmarkedList] = useState<Person[]>([])
   const [presentList, setPresentList] = useState<Person[]>([])
   const [lateList, setLateList] = useState<Person[]>([])
   const [absentList, setAbsentList] = useState<Person[]>([])
@@ -28,6 +30,7 @@ const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
     const items = JSON.parse(localStorage.getItem("boardingware.students") && localStorage.getItem("boardingware.students"))
     if (items) {
       setStudentMainList(items)
+      setUnmarkedList(items)
     }
   }, [getStudents])
 
@@ -37,24 +40,27 @@ const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
   }
 
   // Update student present list
-  const updatePresentList = (list: any) => {
+  const updatePresentList = () => {
     setPresentList([...presentList])
   }
 
   // Update student late list
-  const updateLateList = (list: any) => {
+  const updateLateList = () => {
     setLateList([...lateList])
   }
 
   // Update student absent list
-  const updateAbsentList = (list: any) => {
+  const updateAbsentList = () => {
     setAbsentList([...absentList])
   }
+
+  console.log("studentMainList from context", studentMainList)
 
   return (
     <StudentAttendanceContext.Provider
       value={{
         studentMainList,
+        unmarkedList,
         updateMainList,
         loadState: loadState,
         presentList,

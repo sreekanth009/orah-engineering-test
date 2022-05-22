@@ -6,15 +6,14 @@ import { RollStateList } from "staff-app/components/roll-state/roll-state-list.c
 import { StudentAttendanceContext } from "context-provider/context.provider.component"
 
 export type ActiveRollAction = "filter" | "exit"
-interface Props<T> {
+interface Props {
   isActive: boolean
-  data: T
   onItemClick: (action: ActiveRollAction, value?: string) => void
 }
 
 export const ActiveRollOverlay: React.FC<Props> = (props) => {
-  const { isActive, onItemClick, data } = props
-  const { presentList, lateList, absentList } = useContext(StudentAttendanceContext)
+  const { isActive, onItemClick } = props
+  const { presentList, lateList, absentList, unmarkedList } = useContext(StudentAttendanceContext)
 
   return (
     <S.Overlay isActive={isActive}>
@@ -23,7 +22,7 @@ export const ActiveRollOverlay: React.FC<Props> = (props) => {
         <div>
           <RollStateList
             stateList={[
-              { type: "all", count: data },
+              { type: "all", count: unmarkedList },
               { type: "present", count: presentList },
               { type: "late", count: lateList },
               { type: "absent", count: absentList },
