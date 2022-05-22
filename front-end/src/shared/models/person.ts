@@ -3,6 +3,7 @@ export interface Person {
   first_name: string
   last_name: string
   photo_url?: string
+  type: string
 }
 
 export const PersonHelper = {
@@ -20,4 +21,8 @@ export type ContextState = {
   updatePresentList: (present: Person) => void;
   updateLateList: (present: Person) => void;
   updateAbsentList: (present: Person) => void;
+  sortAscending: (present: Person) => void;
+  sortDescending: (present: Person) => void;
+  sortFirstName: (present: Person) => void;
+  sortLastName: (present: Person) => void;
 };

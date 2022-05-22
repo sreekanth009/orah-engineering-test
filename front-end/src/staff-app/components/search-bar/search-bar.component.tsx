@@ -1,13 +1,10 @@
 import React, { useState, useContext } from "react"
 import Input from "@material-ui/core/Input"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { library } from "@fortawesome/fontawesome-svg-core"
 import { faSearch } from "@fortawesome/free-solid-svg-icons"
 import "./search-bar.scss"
 import getFilteredItems from "../../../shared/helpers/get-filtered-items"
 import { StudentAttendanceContext } from "context-provider/context.provider.component"
-
-library.add(faSearch)
 
 const SearchBar: React.FC = (props) => {
   const { studentMainList, updateMainList } = useContext(StudentAttendanceContext)
@@ -23,7 +20,7 @@ const SearchBar: React.FC = (props) => {
 
   return (
     <div className={"search-wrap"}>
-      <FontAwesomeIcon icon={"search"} />
+      <FontAwesomeIcon icon={faSearch} />
       <Input
         id={"search-by-name"}
         placeholder={"Search by name"}

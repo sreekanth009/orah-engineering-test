@@ -9,10 +9,13 @@ import { StudentListTile } from "staff-app/components/student-list-tile/student-
 import { ActiveRollOverlay, ActiveRollAction } from "staff-app/components/active-roll-overlay/active-roll-overlay.component"
 import SearchBar from "../components/search-bar/search-bar.component"
 import { StudentAttendanceContext } from "context-provider/context.provider.component"
+import SortTypeSwitcher from "staff-app/components/sort-type/sort-type-switcher.component"
 
 export const HomeBoardPage: React.FC = () => {
   const { studentMainList, loadState } = useContext(StudentAttendanceContext)
   const [isRollMode, setIsRollMode] = useState(false)
+
+  console.log("studentMainList....... homepage", studentMainList)
 
   const onToolbarAction = (action: ToolbarAction) => {
     if (action === "roll") {
@@ -62,7 +65,9 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
   const { onItemClick } = props
   return (
     <S.ToolbarContainer>
-      <div onClick={() => onItemClick("sort")}>First Name</div>
+      <div style={{ display: "flex" }} onClick={() => onItemClick("sort")}>
+        First Name <SortTypeSwitcher />
+      </div>
       <SearchBar />
       <S.Button onClick={() => onItemClick("roll")}>Start Roll</S.Button>
     </S.ToolbarContainer>

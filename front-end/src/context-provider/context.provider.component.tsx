@@ -13,6 +13,10 @@ const contextDefaultValues: ContextState = {
   updatePresentList: () => {},
   updateLateList: () => {},
   updateAbsentList: () => {},
+  sortAscending: () => {},
+  sortDescending: () => {},
+  sortFirstName: () => {},
+  sortLastName: () => {},
 }
 
 export const StudentAttendanceContext = createContext<ContextState>(contextDefaultValues)
@@ -54,6 +58,15 @@ const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
     setAbsentList([...absentList])
   }
 
+  // Sort ascending
+  const sortAscending = () => {
+    const ascendingSortList = studentMainList.sort((a, b) => (a.first_name < b.first_name ? -1 : 1))
+    setStudentMainList(ascendingSortList)
+  }
+  const sortDescending = () => {}
+  const sortFirstName = () => {}
+  const sortLastName = () => {}
+
   console.log("studentMainList from context", studentMainList)
 
   return (
@@ -69,6 +82,10 @@ const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
         updatePresentList,
         updateLateList,
         updateAbsentList,
+        sortAscending,
+        sortDescending,
+        sortFirstName,
+        sortLastName,
       }}
     >
       {children}
