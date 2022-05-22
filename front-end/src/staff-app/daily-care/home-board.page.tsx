@@ -11,7 +11,7 @@ import SearchBar from "../components/search-bar/search-bar.component"
 import { StudentAttendanceContext } from "context-provider/context.provider.component"
 
 export const HomeBoardPage: React.FC = () => {
-  const { studentMainList, updateMainList, loadState } = useContext(StudentAttendanceContext)
+  const { studentMainList, loadState } = useContext(StudentAttendanceContext)
   const [isRollMode, setIsRollMode] = useState(false)
 
   const onToolbarAction = (action: ToolbarAction) => {
@@ -29,7 +29,7 @@ export const HomeBoardPage: React.FC = () => {
   return (
     <>
       <S.PageContainer>
-        <Toolbar onItemClick={onToolbarAction} studentList={studentMainList} updateMainList={updateMainList} />
+        <Toolbar onItemClick={onToolbarAction} />
 
         {loadState === "loading" && (
           <CenteredContainer>
@@ -49,15 +49,13 @@ export const HomeBoardPage: React.FC = () => {
           </CenteredContainer>
         )}
       </S.PageContainer>
-      <ActiveRollOverlay data={studentMainList} isActive={isRollMode} onItemClick={onActiveRollAction} />
+      <ActiveRollOverlay isActive={isRollMode} onItemClick={onActiveRollAction} />
     </>
   )
 }
 
 type ToolbarAction = "roll" | "sort"
-interface ToolbarProps<T> {
-  studentList: T
-  updateMainList: T
+interface ToolbarProps {
   onItemClick: (action: ToolbarAction, value?: string) => void
 }
 const Toolbar: React.FC<ToolbarProps> = (props) => {
@@ -65,7 +63,7 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
   return (
     <S.ToolbarContainer>
       <div onClick={() => onItemClick("sort")}>First Name</div>
-      <SearchBar studentList={props && props.studentList} updateMainList={props.updateMainList} />
+      <SearchBar />
       <S.Button onClick={() => onItemClick("roll")}>Start Roll</S.Button>
     </S.ToolbarContainer>
   )
