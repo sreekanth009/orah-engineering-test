@@ -37,7 +37,7 @@ const SortTypeSwitcher: React.FC<Props> = ({ initialState = "default", onStateCh
       case "lastname":
         return lastNameSort(studentMainList, updateMainList)
       default:
-        return ""
+        return studentMainList
     }
   }
 
