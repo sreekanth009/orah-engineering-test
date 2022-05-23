@@ -26,18 +26,31 @@ const SortTypeSwitcher: React.FC<Props> = ({ initialState = "default", onStateCh
     if (onStateChange) {
       onStateChange(next)
     }
-    switch (next) {
-      case "ascending":
-        return ascendingSort(studentMainList, updateMainList)
-      case "descending":
-        return descendingSort(studentMainList, updateMainList)
-      case "firstname":
-        return firstNameSort(studentMainList, updateMainList)
-      case "lastname":
-        return lastNameSort(studentMainList, updateMainList)
-      default:
-        return ""
+
+    if (next === "ascending") {
+      ascendingSort(studentMainList, updateMainList)
+    } else if (next === "descending") {
+      descendingSort(studentMainList, updateMainList)
+    } else if (next === "firstname") {
+      return firstNameSort(studentMainList, updateMainList)
+    } else if (next === "lastname") {
+      return lastNameSort(studentMainList, updateMainList)
+    } else {
+      return ""
     }
+
+    // switch (next) {
+    //   case "ascending":
+    //     return ascendingSort(studentMainList, updateMainList)
+    //   case "descending":
+    //     return descendingSort(studentMainList, updateMainList)
+    //   case "firstname":
+    //     return firstNameSort(studentMainList, updateMainList)
+    //   case "lastname":
+    //     return lastNameSort(studentMainList, updateMainList)
+    //   default:
+    //     return ""
+    // }
   }
 
   return <SortTypeIcon type={sortState} size={20} onClick={onClick} />
