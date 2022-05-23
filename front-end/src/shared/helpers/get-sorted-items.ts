@@ -12,13 +12,13 @@ export const descendingSort = (list:any, updateMainList: any) => {
 
 export const firstNameSort = (list:any, updateMainList: any) => {
 	const copyList = [...list];
-	const firstNameSortList = copyList.sort((a, b) => ((a || {}).first_name || "").localeCompare((b || {}).first_name || ""));
+	const firstNameSortList = copyList.sort((a, b) => (a?.first_name || "").localeCompare(b?.first_name || ""));
 	updateMainList(firstNameSortList);
 }
 
 export const lastNameSort = (list:any, updateMainList: any) => {
 	const copyList = [...list];
-	const lastNameSortList = copyList.sort((a, b) => ((a || {}).last_name || "").localeCompare((b || {}).last_name || ""));
+	const lastNameSortList = copyList.sort((a, b) => (a?.last_name || "").localeCompare(b?.last_name || ""));
 	updateMainList(lastNameSortList);
 }
 
