@@ -1,9 +1,10 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import styled from "styled-components"
 import Button from "@material-ui/core/Button"
 import { BorderRadius, Spacing } from "shared/styles/styles"
 import { RollStateList } from "staff-app/components/roll-state/roll-state-list.component"
 import { StudentAttendanceContext } from "context-provider/context.provider.component"
+import { useApi } from "shared/hooks/use-api"
 
 export type ActiveRollAction = "filter" | "exit"
 interface Props {
@@ -13,7 +14,12 @@ interface Props {
 
 export const ActiveRollOverlay: React.FC<Props> = (props) => {
   const { isActive, onItemClick } = props
-  const { presentList, lateList, absentList, unmarkedList } = useContext(StudentAttendanceContext)
+  const { presentList, lateList, absentList, unmarkedList, updateCompletedRollList } = useContext(StudentAttendanceContext)
+  const [getRolls, data, loadState] = useApi<{ students: Person[] }>({ url: "save-roll" })
+
+  useEffect(() => {
+    getRolls()
+  }, [getRolls])
 
   return (
     <S.Overlay isActive={isActive}>
@@ -32,7 +38,7 @@ export const ActiveRollOverlay: React.FC<Props> = (props) => {
             <Button color="inherit" onClick={() => onItemClick("exit")}>
               Exit
             </Button>
-            <Button color="inherit" style={{ marginLeft: Spacing.u2 }} onClick={() => onItemClick("exit")}>
+            <Button color="inherit" style={{ marginLeft: Spacing.u2 }} onClick={updateCompletedRollList}>
               Complete
             </Button>
           </div>

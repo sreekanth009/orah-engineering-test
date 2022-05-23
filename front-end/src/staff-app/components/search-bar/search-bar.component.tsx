@@ -12,7 +12,7 @@ const SearchBar: React.FC = (props) => {
   // Component local states
   const [query, setQuery] = useState("")
 
-  // Set search query and filter the list with search query
+  // Set search query and filter the list based on search query
   const handleOnChange = (searchQuery: any) => {
     setQuery(searchQuery)
     getFilteredItems(query, studentMainList, updateMainList)

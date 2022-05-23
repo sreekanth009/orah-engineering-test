@@ -18,7 +18,9 @@ export type ContextState = {
   presentList: Person[];
   lateList: Person[];
   absentList: Person[];
+  completedRollList: Person[];
   updatePresentList: (present: Person) => void;
   updateLateList: (present: Person) => void;
   updateAbsentList: (present: Person) => void;
+  updateCompletedRollList: (present: Person) => void;
 };

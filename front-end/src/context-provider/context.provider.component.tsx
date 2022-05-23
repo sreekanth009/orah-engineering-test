@@ -10,9 +10,11 @@ const contextDefaultValues: ContextState = {
   presentList: [],
   lateList: [],
   absentList: [],
+  completedRollList: [],
   updatePresentList: () => {},
   updateLateList: () => {},
   updateAbsentList: () => {},
+  updateCompletedRollList: () => {},
 }
 
 export const StudentAttendanceContext = createContext<ContextState>(contextDefaultValues)
@@ -23,6 +25,7 @@ const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
   const [presentList, setPresentList] = useState<Person[]>([])
   const [lateList, setLateList] = useState<Person[]>([])
   const [absentList, setAbsentList] = useState<Person[]>([])
+  const [completedRollList, setCompletedRollList] = useState<Person[]>([])
   const [getStudents, data, loadState] = useApi<{ students: Person[] }>({ url: "get-homeboard-students" })
 
   useEffect(() => {
@@ -54,7 +57,14 @@ const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
     setAbsentList([...absentList])
   }
 
-  console.log("studentMainList from context", studentMainList)
+  // Update comlpeted roll list
+  const updateCompletedRollList = () => {
+    setCompletedRollList([...presentList, ...lateList, ...absentList])
+  }
+
+  console.log("studentMainList from context.....", studentMainList)
+  console.log("unmarkedList from context......", unmarkedList)
+  console.log("completedRollList from context......", completedRollList)
 
   return (
     <StudentAttendanceContext.Provider
@@ -66,9 +76,11 @@ const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
         presentList,
         lateList,
         absentList,
+        completedRollList,
         updatePresentList,
         updateLateList,
         updateAbsentList,
+        updateCompletedRollList,
       }}
     >
       {children}
