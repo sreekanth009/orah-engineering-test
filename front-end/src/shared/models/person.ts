@@ -21,8 +21,4 @@ export type ContextState = {
   updatePresentList: (present: Person) => void;
   updateLateList: (present: Person) => void;
   updateAbsentList: (present: Person) => void;
-  sortAscending: (present: Person) => void;
-  sortDescending: (present: Person) => void;
-  sortFirstName: (present: Person) => void;
-  sortLastName: (present: Person) => void;
 };

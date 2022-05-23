@@ -15,8 +15,6 @@ export const HomeBoardPage: React.FC = () => {
   const { studentMainList, loadState } = useContext(StudentAttendanceContext)
   const [isRollMode, setIsRollMode] = useState(false)
 
-  console.log("studentMainList....... homepage", studentMainList)
-
   const onToolbarAction = (action: ToolbarAction) => {
     if (action === "roll") {
       setIsRollMode(true)

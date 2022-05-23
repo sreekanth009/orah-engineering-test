@@ -15,8 +15,6 @@ interface Props {
 export const RollStateList: React.FC<Props> = ({ stateList, size = 14, onItemClick }) => {
   const { updateMainList, presentList, lateList, absentList, unmarkedList } = useContext(StudentAttendanceContext)
 
-  console.log("unmarkedList.....before....", unmarkedList)
-
   const onClick = (type: ItemType) => {
     if (onItemClick) {
       onItemClick(type)
@@ -34,8 +32,6 @@ export const RollStateList: React.FC<Props> = ({ stateList, size = 14, onItemCli
         return updateMainList(unmarkedList && unmarkedList)
     }
   }
-
-  console.log("unmarkedList.....after....", unmarkedList)
 
   return (
     <S.ListContainer>
