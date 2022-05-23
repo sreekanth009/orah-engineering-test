@@ -1,60 +1,68 @@
-import React, { useState } from "react"
+import React, { useContext } from "react"
 import styled from "styled-components"
+import { Tooltip } from "@material-ui/core"
 import { Spacing, FontWeight } from "shared/styles/styles"
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-// import { faAngleDown } from "@fortawesome/free-solid-svg-icons"
-// import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@material-ui/core"
-// import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@material-ui/core"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faStar } from "@fortawesome/free-solid-svg-icons"
+import { Card, CardContent, CardMedia, Typography, Grid } from "@material-ui/core"
+import avatar from "assets/images/avatar.png"
+import { PersonHelper } from "shared/models/person"
+import { StudentAttendanceContext } from "context-provider/context.provider.component"
 
 export const ActivityPage: React.FC = () => {
-  // const [expanded, setExpanded] = useState<string | false>("panel1")
-  // const handleChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
-  //   setExpanded(newExpanded ? panel : false)
-  // }
+  const { completedRollList } = useContext(StudentAttendanceContext)
+
+  console.log("completedRollList....", completedRollList)
+
+  function getBgColor(type: any) {
+    switch (type) {
+      case "present":
+        return "#13943b"
+      case "absent":
+        return "#9b9b9b"
+      case "late":
+        return "#f5a623"
+      default:
+        return "#ccc"
+    }
+  }
+
   return (
     <S.Container>
       Activity Page
       <S.Wrap>
         <S.Heading>{"Completed List"}</S.Heading>
-        {/* <Accordion expanded={expanded === "panel1"} onChange={handleChange("panel1")}>
-          <AccordionSummary
-            expandIcon={<FontAwesomeIcon color="#fff" icon={faAngleDown} size={"sm"} />}
-            style={{ backgroundColor: "#13943b", color: "#fff" }}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography style={{ fontWeight: "bold" }}>Present List</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.</Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion expanded={expanded === "panel2"} onChange={handleChange("panel2")}>
-          <AccordionSummary
-            expandIcon={<FontAwesomeIcon color="#fff" icon={faAngleDown} size={"sm"} />}
-            style={{ backgroundColor: "#f5a623", color: "#fff" }}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
-            <Typography style={{ fontWeight: "bold" }}>Late List</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.</Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion expanded={expanded === "panel3"} onChange={handleChange("panel3")}>
-          <AccordionSummary
-            expandIcon={<FontAwesomeIcon color="#fff" icon={faAngleDown} size={"sm"} />}
-            style={{ backgroundColor: "#9b9b9b", color: "#fff" }}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
-            <Typography style={{ fontWeight: "bold" }}>Absent List</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.</Typography>
-          </AccordionDetails>
-        </Accordion> */}
+        <Grid container columns={{ xs: 4, sm: 8, md: 12 }} style={{ paddingTop: "1rem" }}>
+          {completedRollList && completedRollList.length > 0 ? (
+            completedRollList.map((item) => {
+              return (
+                <Card style={{ width: "30%", margin: "1rem" }}>
+                  <CardMedia component="img" height="120" image={avatar} alt="green iguana" />
+                  <CardContent>
+                    <Typography gutterBottom component="p" style={{ fontWeight: 600 }}>
+                      Student Name: {PersonHelper.getFullName(item)}
+                    </Typography>
+
+                    <Typography gutterBottom component="p">
+                      Student Id: {item.id}
+                    </Typography>
+
+                    <Typography gutterBottom component="p">
+                      Student Status:{" "}
+                      <Tooltip title={item.type}>
+                        <span>
+                          <FontAwesomeIcon color={getBgColor(item.type)} icon={faStar} size={"sm"} />
+                        </span>
+                      </Tooltip>
+                    </Typography>
+                  </CardContent>
+                </Card>
+              )
+            })
+          ) : (
+            <p>{"No records found"}</p>
+          )}
+        </Grid>
       </S.Wrap>
     </S.Container>
   )
