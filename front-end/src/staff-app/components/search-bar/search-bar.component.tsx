@@ -15,8 +15,10 @@ const SearchBar: React.FC = (props) => {
   // Set search query and filter the list based on search query
   const handleOnChange = (searchQuery: any) => {
     setQuery(searchQuery)
-    getFilteredItems(query, studentMainList, updateMainList)
+    getFilteredItems(query.trim(), studentMainList, updateMainList)
   }
+
+  console.log("query", query)
 
   return (
     <div className={"search-wrap"}>
