@@ -48,7 +48,7 @@ export const ActivityPage: React.FC = () => {
                     </Typography>
 
                     <Typography gutterBottom component="p">
-                      Student Status:{" "}
+                      Roll:{" "}
                       <Tooltip title={item.type}>
                         <span>
                           <FontAwesomeIcon color={getBgColor(item.type)} icon={faStar} size={"sm"} />

@@ -1,10 +1,11 @@
-import React, { useState, useContext, useEffect } from "react"
+import React, { useContext } from "react"
 import styled from "styled-components"
 import Button from "@material-ui/core/Button"
+import { Snackbar } from "@material-ui/core"
 import { BorderRadius, Spacing } from "shared/styles/styles"
 import { RollStateList } from "staff-app/components/roll-state/roll-state-list.component"
 import { StudentAttendanceContext } from "context-provider/context.provider.component"
-import { useApi } from "shared/hooks/use-api"
+// import { useApi } from "shared/hooks/use-api"
 
 export type ActiveRollAction = "filter" | "exit"
 interface Props {
@@ -14,12 +15,20 @@ interface Props {
 
 export const ActiveRollOverlay: React.FC<Props> = (props) => {
   const { isActive, onItemClick } = props
-  const { presentList, lateList, absentList, unmarkedList, updateCompletedRollList } = useContext(StudentAttendanceContext)
-  const [getRolls, data, loadState] = useApi<{ students: Person[] }>({ url: "save-roll" })
+  const { presentList, lateList, absentList, unmarkedList, updateCompletedRollList, open, handleCloseToaster } = useContext(StudentAttendanceContext)
+  // const [getRolls, data, loadState] = useApi<{ students: Person[] }>({ url: "save-roll" })
 
-  useEffect(() => {
-    getRolls()
-  }, [getRolls])
+  // useEffect(() => {
+  //   getRolls()
+  // }, [getRolls])
+
+  const action = (
+    <React.Fragment>
+      <Button style={{ backgroundColor: "#13943b" }} variant="contained" onClick={handleCloseToaster}>
+        Close
+      </Button>
+    </React.Fragment>
+  )
 
   return (
     <S.Overlay isActive={isActive}>
@@ -44,6 +53,14 @@ export const ActiveRollOverlay: React.FC<Props> = (props) => {
           </div>
         </div>
       </S.Content>
+      <Snackbar
+        style={{ backgroundColor: "transparent" }}
+        open={open === "false" ? false : true}
+        onClose={handleCloseToaster}
+        action={action}
+        autoHideDuration={5000}
+        message="Changes saved successfully!"
+      />
     </S.Overlay>
   )
 }

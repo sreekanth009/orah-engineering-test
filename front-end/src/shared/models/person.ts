@@ -15,6 +15,7 @@ export type ContextState = {
   unmarkedList: Person[];
   updateMainList: (filter: Person) => void;
   loadState: string;
+  open: string;
   presentList: Person[];
   lateList: Person[];
   absentList: Person[];
@@ -23,4 +24,5 @@ export type ContextState = {
   updateLateList: (present: Person) => void;
   updateAbsentList: (present: Person) => void;
   updateCompletedRollList: (present: Person) => void;
+  handleCloseToaster: (present: Person) => void;
 };

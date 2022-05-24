@@ -15,6 +15,8 @@ const contextDefaultValues: ContextState = {
   updateLateList: () => {},
   updateAbsentList: () => {},
   updateCompletedRollList: () => {},
+  open: "",
+  handleCloseToaster: () => {},
 }
 
 export const StudentAttendanceContext = createContext<ContextState>(contextDefaultValues)
@@ -26,6 +28,7 @@ const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
   const [lateList, setLateList] = useState<Person[]>([])
   const [absentList, setAbsentList] = useState<Person[]>([])
   const [completedRollList, setCompletedRollList] = useState<Person[]>([])
+  const [open, setOpen] = useState("false")
   const [getStudents, data, loadState] = useApi<{ students: Person[] }>({ url: "get-homeboard-students" })
 
   useEffect(() => {
@@ -60,6 +63,14 @@ const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
   // Update comlpeted roll list
   const updateCompletedRollList = () => {
     setCompletedRollList([...presentList, ...lateList, ...absentList])
+    setOpen("true")
+  }
+
+  const handleCloseToaster = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === "clickaway") {
+      return
+    }
+    setOpen("false")
   }
 
   console.log("studentMainList from context.....", studentMainList)
@@ -81,6 +92,8 @@ const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
         updateLateList,
         updateAbsentList,
         updateCompletedRollList,
+        open,
+        handleCloseToaster,
       }}
     >
       {children}
