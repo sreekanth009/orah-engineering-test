@@ -9,13 +9,13 @@ interface Props {
   onStateChange?: (newState: SortStateType) => void
 }
 
-const SortTypeSwitcher: React.FC<Props> = ({ initialState = "default", onStateChange }) => {
+const SortTypeSwitcher: React.FC<Props> = ({ initialState = "ascending", onStateChange }) => {
   const [sortState, setSortState] = useState(initialState)
-  const { studentMainList, updateMainList } = useContext(StudentAttendanceContext)
+  const { studentMainList, updateMainList, labelValue } = useContext(StudentAttendanceContext)
 
   const nextState = () => {
-    const states: SortStateType[] = ["ascending", "descending", "firstname", "lastname"]
-    if (sortState === "default" || sortState === "lastname") return states[0]
+    const states: SortStateType[] = ["ascending", "descending"]
+    if (sortState === "descending") return states[0]
     const matchingIndex = states.findIndex((s) => s === sortState)
     return matchingIndex > -1 ? states[matchingIndex + 1] : states[0]
   }
@@ -29,13 +29,13 @@ const SortTypeSwitcher: React.FC<Props> = ({ initialState = "default", onStateCh
 
     switch (next) {
       case "ascending":
-        return ascendingSort(studentMainList, updateMainList)
+        return ascendingSort(studentMainList, updateMainList, labelValue)
       case "descending":
-        return descendingSort(studentMainList, updateMainList)
-      case "firstname":
-        return firstNameSort(studentMainList, updateMainList)
-      case "lastname":
-        return lastNameSort(studentMainList, updateMainList)
+        return descendingSort(studentMainList, updateMainList, labelValue)
+      // case "firstname":
+      //   return firstNameSort(studentMainList, updateMainList)
+      // case "lastname":
+      //   return lastNameSort(studentMainList, updateMainList)
       default:
         return updateMainList(studentMainList)
     }

@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react"
 import { Person, ContextState } from "../shared/models/person"
 import { useApi } from "shared/hooks/use-api"
+import { firstNameSort, nameSort } from "shared/helpers/get-sorted-items"
 
 const contextDefaultValues: ContextState = {
   studentMainList: [],
@@ -17,6 +18,8 @@ const contextDefaultValues: ContextState = {
   updateCompletedRollList: () => {},
   open: "",
   handleCloseToaster: () => {},
+  labelValue: "",
+  handleDropDownChange: () => {},
 }
 
 export const StudentAttendanceContext = createContext<ContextState>(contextDefaultValues)
@@ -29,16 +32,27 @@ const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
   const [absentList, setAbsentList] = useState<Person[]>([])
   const [completedRollList, setCompletedRollList] = useState<Person[]>([])
   const [open, setOpen] = useState("false")
+  const [labelValue, setlabelValue] = useState("fn")
+
   const [getStudents, data, loadState] = useApi<{ students: Person[] }>({ url: "get-homeboard-students" })
 
   useEffect(() => {
     getStudents()
+    // getData();
     const items = JSON.parse(localStorage.getItem("boardingware.students") && localStorage.getItem("boardingware.students"))
     if (items) {
       setStudentMainList(items)
       setUnmarkedList(items)
     }
+    firstNameSort(items, updateMainList)
   }, [getStudents])
+
+  // const getData = async () => {
+  //   if (data) {
+  //     setStudentMainList(data?.students || [])
+  //     setUnmarkedList(data?.students || [])
+  //   }
+  // }
 
   // Update main list on input change
   const updateMainList = (resultList: any) => {
@@ -66,6 +80,11 @@ const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
     setOpen("true")
   }
 
+  const handleDropDownChange = (event) => {
+    setlabelValue(event.target.value)
+    nameSort(studentMainList, updateMainList, event.target.value)
+  }
+
   const handleCloseToaster = (event: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
       return
@@ -73,9 +92,9 @@ const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
     setOpen("false")
   }
 
-  console.log("studentMainList from context.....", studentMainList)
-  console.log("unmarkedList from context......", unmarkedList)
-  console.log("completedRollList from context......", completedRollList)
+  // console.log("studentMainList from context.....", studentMainList)
+  // console.log("unmarkedList from context......", unmarkedList)
+  // console.log("completedRollList from context......", completedRollList)
 
   return (
     <StudentAttendanceContext.Provider
@@ -94,6 +113,8 @@ const StudentAttendanceProvider: React.FC<React.ReactNode> = ({ children }) => {
         updateCompletedRollList,
         open,
         handleCloseToaster,
+        labelValue,
+        handleDropDownChange,
       }}
     >
       {children}

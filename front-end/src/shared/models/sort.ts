@@ -1,1 +1,1 @@
-export type SortStateType = "ascending" | "descending" | "firstname" | "lastname";
+export type SortStateType = "ascending" | "descending";

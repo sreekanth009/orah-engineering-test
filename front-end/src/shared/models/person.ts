@@ -25,4 +25,6 @@ export type ContextState = {
   updateAbsentList: (present: Person) => void;
   updateCompletedRollList: (present: Person) => void;
   handleCloseToaster: (present: Person) => void;
+  labelValue: string;
+  handleDropDownChange: (present: Person) => void;
 };

@@ -15,7 +15,7 @@ const SearchBar: React.FC = (props) => {
   // Set search query and filter the list based on search query
   const handleOnChange = (searchQuery: any) => {
     setQuery(searchQuery)
-    getFilteredItems(query.trim(), studentMainList, updateMainList)
+    getFilteredItems(searchQuery.trim(), studentMainList, updateMainList)
   }
 
   console.log("query", query)

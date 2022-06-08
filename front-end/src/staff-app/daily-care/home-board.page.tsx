@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react"
 import styled from "styled-components"
 import Button from "@material-ui/core/ButtonBase"
+import MenuItem from "@material-ui/core/MenuItem"
+import Select from "@material-ui/core/Select"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Spacing, BorderRadius, FontWeight } from "shared/styles/styles"
 import { Colors } from "shared/styles/colors"
@@ -10,6 +12,7 @@ import { ActiveRollOverlay, ActiveRollAction } from "staff-app/components/active
 import SearchBar from "../components/search-bar/search-bar.component"
 import { StudentAttendanceContext } from "context-provider/context.provider.component"
 import SortTypeSwitcher from "staff-app/components/sort-type/sort-type-switcher.component"
+import { nameSort } from "shared/helpers/get-sorted-items"
 
 export const HomeBoardPage: React.FC = () => {
   const { studentMainList, loadState } = useContext(StudentAttendanceContext)
@@ -61,10 +64,16 @@ interface ToolbarProps {
 }
 const Toolbar: React.FC<ToolbarProps> = (props) => {
   const { onItemClick } = props
+  const { labelValue, handleDropDownChange } = useContext(StudentAttendanceContext)
+
   return (
     <S.ToolbarContainer>
       <div style={{ display: "flex" }} onClick={() => onItemClick("sort")}>
-        First Name <SortTypeSwitcher />
+        <Select id="demo-simple-select" defaultValue={"fn"} onChange={handleDropDownChange}>
+          <MenuItem value={"fn"}>First Name</MenuItem>
+          <MenuItem value={"ln"}>Last Name</MenuItem>
+        </Select>
+        <SortTypeSwitcher />
       </div>
       <SearchBar />
       <S.Button onClick={() => onItemClick("roll")}>Start Roll</S.Button>

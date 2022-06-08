@@ -16,10 +16,10 @@ function getSortTitle(type: SortStateType) {
       return "Sorted by ascending"
     case "descending":
       return "Sorted by descending"
-    case "firstname":
-      return "Sorted by first-name"
-    case "lastname":
-      return "Sorted by last-name"
+    // case "firstname":
+    //   return "Sorted by first-name"
+    // case "lastname":
+    //   return "Sorted by last-name"
     default:
       return "Sort Toggle"
   }
@@ -31,10 +31,10 @@ function getIcon(type: SortStateType) {
       return faArrowUp
     case "descending":
       return faArrowDown
-    case "firstname":
-      return faSortAlphaUp
-    case "lastname":
-      return faSortAlphaDown
+    // case "firstname":
+    //   return faSortAlphaUp
+    // case "lastname":
+    //   return faSortAlphaDown
     default:
       return faFilter
   }
