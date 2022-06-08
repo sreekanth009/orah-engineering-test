@@ -12,7 +12,7 @@ import { ActiveRollOverlay, ActiveRollAction } from "staff-app/components/active
 import SearchBar from "../components/search-bar/search-bar.component"
 import { StudentAttendanceContext } from "context-provider/context.provider.component"
 import SortTypeSwitcher from "staff-app/components/sort-type/sort-type-switcher.component"
-import { nameSort } from "shared/helpers/get-sorted-items"
+import "./home.scss"
 
 export const HomeBoardPage: React.FC = () => {
   const { studentMainList, loadState } = useContext(StudentAttendanceContext)
@@ -69,7 +69,7 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
   return (
     <S.ToolbarContainer>
       <div style={{ display: "flex" }} onClick={() => onItemClick("sort")}>
-        <Select id="demo-simple-select" defaultValue={"fn"} onChange={handleDropDownChange}>
+        <Select className={"sort-drop-down"} defaultValue={"fn"} onChange={handleDropDownChange}>
           <MenuItem value={"fn"}>First Name</MenuItem>
           <MenuItem value={"ln"}>Last Name</MenuItem>
         </Select>

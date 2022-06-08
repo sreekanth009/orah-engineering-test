@@ -1,0 +1,12 @@
+.sort-drop-down {
+  width: 120px;
+  padding: 0 0.5rem;
+  &:hover {
+  }
+  > div {
+    color: #fff;
+  }
+  > svg {
+    fill: #fff;
+  }
+}
