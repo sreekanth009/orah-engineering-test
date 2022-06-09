@@ -11,6 +11,7 @@ import { StudentAttendanceContext } from "context-provider/context.provider.comp
 
 export const ActivityPage: React.FC = () => {
   const { completedRollList } = useContext(StudentAttendanceContext)
+  const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" }
 
   console.log("completedRollList....", completedRollList)
 
@@ -41,6 +42,10 @@ export const ActivityPage: React.FC = () => {
                   <CardContent>
                     <Typography gutterBottom component="p" style={{ fontWeight: 600 }}>
                       Student Name: {PersonHelper.getFullName(item)}
+                    </Typography>
+
+                    <Typography gutterBottom component="p">
+                      Completed On: {item && item.date.toLocaleDateString("en-IN", options)}
                     </Typography>
 
                     <Typography gutterBottom component="p">

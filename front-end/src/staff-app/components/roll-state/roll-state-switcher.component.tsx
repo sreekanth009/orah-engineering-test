@@ -40,7 +40,7 @@ export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", si
       const index = findIndex(presentList)
       if (index === -1) {
         updatePresentList(presentList.push(individualStudent))
-        presentList.forEach((item) => (item.type = next))
+        presentList.forEach((item) => ((item.type = next), (item.date = new Date())))
 
         const index = findIndex(absentList)
         if (index === -1) {
@@ -60,7 +60,7 @@ export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", si
       const index = findIndex(lateList)
       if (index === -1) {
         updateLateList(lateList.push(individualStudent))
-        lateList.forEach((item) => (item.type = next))
+        lateList.forEach((item) => ((item.type = next), (item.date = new Date())))
 
         const index = findIndex(presentList)
         if (index === -1) {
@@ -80,7 +80,7 @@ export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", si
       const index = findIndex(absentList)
       if (index === -1) {
         updateAbsentList(absentList.push(individualStudent))
-        absentList.forEach((item) => (item.type = next))
+        absentList.forEach((item) => ((item.type = next), (item.date = new Date())))
 
         const index2 = findIndex(lateList)
         if (index2 === -1) {
